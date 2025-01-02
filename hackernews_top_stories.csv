@@ -1,0 +1,19 @@
+,by,descendants,id,kids,score,time,title,type,url,text
+0,craigkerstiens,7.0,42575900,"[42576202, 42576069]",25,1735835540,Postgres UUIDv7 and per-back end monotonicity,story,https://brandur.org/fragments/uuid-v7-monotonicity,
+1,llimllib,3.0,42575990,"[42576183, 42576146, 42576171]",10,1735836126,Diagnosing an Unusual WiFi Issue,story,https://ryuuta.net/blog/diagnosing-an-unsual-wifi-issue/,
+2,whoishiring,25.0,42575535,"[42576166, 42576130, 42576080, 42576078, 42576054, 42576008, 42575831, 42575902, 42575702, 42575886, 42575731, 42575547, 42575777, 42575593, 42575538, 42575621, 42575551, 42575711, 42575590, 42575637, 42575589, 42575656, 42575623, 42575873]",20,1735833609,Ask HN: Who wants to be hired? (January 2025),story,,"Share your information if you are looking for work. Please use this format:<p><pre><code>  Location:
+  Remote:
+  Willing to relocate:
+  Technologies:
+  Résumé&#x2F;CV:
+  Email:
+</code></pre>
+Please only post if you are personally looking for work. Agencies, recruiters, job boards,
+and so on, are off topic here.<p>Readers: please only email these addresses to discuss work opportunities.<p>There&#x27;s a site for searching these posts at <a href=""https:&#x2F;&#x2F;www.wantstobehired.com"" rel=""nofollow"">https:&#x2F;&#x2F;www.wantstobehired.com</a>."
+3,Bluestein,41.0,42574125,"[42574687, 42574871, 42574819, 42575993, 42575092, 42575023, 42574975, 42575073, 42575478, 42576003, 42574597, 42575201, 42574653, 42575448, 42575785]",117,1735823723,What Is miniKanren?,story,http://minikanren.org/,
+4,unseenhistories,9.0,42575155,"[42575923, 42575440, 42575416, 42575858, 42575320, 42575156]",34,1735831145,A Private Life – Nikolai Tolstoy Remembers Patrick O'Brian,story,https://www.unseenhistories.com/tolstoy-patrick-o-brian,
+5,jasoncsullivan,,42576163,,1,1735837224,Distro (YC S24) Is Hiring a Business Development Representative (BDR),job,https://www.ycombinator.com/companies/distro/jobs/FFzY0sx-business-development-representative,
+6,AbuAssar,54.0,42572662,"[42572786, 42573331, 42573781, 42573036, 42573202, 42573437, 42573100, 42573801, 42573537, 42573001, 42572898, 42573933, 42573026, 42572816]",418,1735805295,MitmProxy2Swagger: Automagically reverse-engineer REST APIs,story,https://github.com/alufers/mitmproxy2swagger,
+7,benbreen,1.0,42575159,[42576000],27,1735831150,The Accidental Invention of the Snow Globe (2024),story,https://www.smithsonianmag.com/innovation/how-an-experiment-to-amplify-light-in-hospital-operating-rooms-led-to-the-accidental-invention-of-the-snow-globe-180985742/,
+8,thunderbong,3.0,42575189,"[42576194, 42575988, 42576026]",15,1735831328,HTML_slice: Enable Ruby classes the ability to generate reusable pieces of HTML,story,https://github.com/henrique-ft/html_slice,
+9,thunderbong,73.0,42572057,"[42572808, 42573378, 42572494, 42572528, 42572552, 42572432, 42572687, 42574870, 42575138, 42572465, 42574786, 42573637, 42573348, 42572792, 42572805, 42573294, 42574164, 42572897]",305,1735797320,"Zasper: A Modern and Efficient Alternative to JupyterLab, Built in Go",story,https://github.com/zasper-io/zasper,
