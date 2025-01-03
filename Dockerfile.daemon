@@ -15,7 +15,7 @@ ENV DAGSTER_HOME=/dagster_home
 # Copy dagster instance YAML to $DAGSTER_HOME
 COPY dagster.yaml /dagster_home/
 
-# Run dagster gRPC server on port 80
+# Run dagster gRPC server on port 4000
 EXPOSE 4000
 
 # Using CMD rather than ENTRYPOINT allows the command to be overridden in
