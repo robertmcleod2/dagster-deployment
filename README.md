@@ -1,5 +1,5 @@
-# dagster-deployment-practice
-A practice dagster deployment using kubernetes.
+# dagster-kubernetes-deployment
+An example dagster deployment in Azure using kubernetes
 
 ### Local setup
 
