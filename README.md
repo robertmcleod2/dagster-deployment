@@ -40,16 +40,18 @@ The dagster webserver will be available at `http://localhost:3000`
 
 To run the project from a docker container, follow step 1 above then these steps:
 
-1. Build the docker image
+1. Build the docker images
 
 ```bash
-docker build -t dagster-deployment-practice .
+docker build -t dagster-webserver . -f Dockerfile.webserver
+docker build -t dagster-daemon . -f Dockerfile.daemon
 ```
 
 2. Run the docker container
 
 ```bash
-docker run -p 3000:3000 -it dagster-practice
+docker run -p 3000:3000 -it dagster-webserver
+docker run -p 4000:4000 -it dagster-daemon
 ```
 
 The dagster webserver will be available at `http://localhost:3000`

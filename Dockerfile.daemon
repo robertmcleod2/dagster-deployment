@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 COPY . .
 
@@ -15,8 +15,9 @@ ENV DAGSTER_HOME=/dagster_home
 # Copy dagster instance YAML to $DAGSTER_HOME
 COPY dagster.yaml /dagster_home/
 
-EXPOSE 3000
+# Run dagster gRPC server on port 80
+EXPOSE 4000
 
-# ENTRYPOINT ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]
-
-ENTRYPOINT ["dagster", "dev", "-h", "0.0.0.0", "-p", "3000"]
+# Using CMD rather than ENTRYPOINT allows the command to be overridden in
+# run launchers or executors to run other commands using this image
+CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-f", "dagster_app/definitions.py"]
