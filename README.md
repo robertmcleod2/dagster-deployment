@@ -1,5 +1,9 @@
 # dagster-deployment-practice
-A practice dagster deployment using kubernetes
+A practice dagster deployment using kubernetes.
+
+### Local setup
+
+To set up and run the project locally, follow these steps:
 
 1. Clone the repository
 
@@ -29,3 +33,23 @@ pip install -e ".[dev]"
 ```bash
 dagster dev
 ```
+
+The dagster webserver will be available at `http://localhost:3000`
+
+### Run from docker container
+
+To run the project from a docker container, follow step 1 above then these steps:
+
+1. Build the docker image
+
+```bash
+docker build -t dagster-deployment-practice .
+```
+
+2. Run the docker container
+
+```bash
+docker run -p 3000:3000 -it dagster-practice
+```
+
+The dagster webserver will be available at `http://localhost:3000`

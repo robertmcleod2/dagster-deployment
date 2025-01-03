@@ -1,13 +1,20 @@
-FROM python:3.12-slim
-
-WORKDIR /app
+FROM python:3.10-slim
 
 COPY . .
 
-RUN pip3 install -r requirements.txt
+RUN pip install -e .[dev] \
+    && pip install dagster-webserver dagster-postgres dagster-aws
 
-EXPOSE 8501
+# Copy your code and workspace to /opt/dagster/app
+COPY dagster_app/ dagster_app/
 
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+# Set the DAGSTER_HOME environment variable to /dagster_home
+RUN mkdir -p /dagster_home
+ENV DAGSTER_HOME=/dagster_home
 
-ENTRYPOINT ["streamlit", "run", "src/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+# Copy dagster instance YAML to $DAGSTER_HOME
+COPY dagster.yaml /dagster_home/
+
+EXPOSE 3000
+
+ENTRYPOINT ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]
