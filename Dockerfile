@@ -17,4 +17,6 @@ COPY dagster.yaml /dagster_home/
 
 EXPOSE 3000
 
-ENTRYPOINT ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]
+# ENTRYPOINT ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]
+
+ENTRYPOINT ["dagster", "dev", "-h", "0.0.0.0", "-p", "3000"]
