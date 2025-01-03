@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.dagster]
+module_name = "dagster_app.definitions"
+code_location_name = "dagster_app"
+
+[tool.ruff]
+# also lint and format juptyer notebooks
+extend-include = ["*.ipynb"]
+# ruff/vscode should all use the same max line length
+line-length = 110
+
+[tool.ruff.lint]
+# select groups of rules based on https://docs.astral.sh/ruff/rules/
+select = ["E", "F", "B", "I"]
+# Add errors that should be ignored by default here
+ignore = ["E402", "E501"]
