@@ -30,11 +30,5 @@ COPY workspace.yaml /opt/dagster/app/
 
 EXPOSE 3000
 
-# Copy the entrypoint script
-COPY entrypoint.sh /opt/dagster/app/
-
-# Make the entrypoint script executable
-RUN chmod +x /entrypoint.sh
-
 # Set the entrypoint to the script
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]
