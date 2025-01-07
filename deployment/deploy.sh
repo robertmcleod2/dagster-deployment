@@ -15,13 +15,11 @@ az acr login --name ${AZURE_RESOURCE_GROUP}
 username=$(az acr credential show -n ${AZURE_RESOURCE_GROUP} --query username | xargs) 
 password=$(az acr credential show -n ${AZURE_RESOURCE_GROUP} --query passwords[0].value | xargs) 
 
-docker login azure --client-id ${AZURE_CLIENT_ID} --client-secret ${AZURE_CLIENT_CERTIFICATE_PATH} --tenant-id ${AZURE_TENANT_ID}
+# docker login azure --client-id ${AZURE_CLIENT_ID} --client-secret ${AZURE_CLIENT_CERTIFICATE_PATH} --tenant-id ${AZURE_TENANT_ID}
 
-docker context create aci ${AZURE_RESOURCE_GROUP} --resource-group ${AZURE_RESOURCE_GROUP} --location ${LOCATION} --subscription-id ${AZURE_SUBSCRIPTION_ID}
+# docker context create aci ${AZURE_RESOURCE_GROUP} --resource-group ${AZURE_RESOURCE_GROUP} --location ${LOCATION} --subscription-id ${AZURE_SUBSCRIPTION_ID}
 
-docker context use ${AZURE_RESOURCE_GROUP}
-
-
+# docker context use ${AZURE_RESOURCE_GROUP}
 
 # az containerapp compose create --resource-group ${AZURE_RESOURCE_GROUP} --environment DagsterDeployment \
 #   --compose-file-path docker-compose.yml --registry-username ${username} --registry-password ${password} \
@@ -34,6 +32,9 @@ docker context use ${AZURE_RESOURCE_GROUP}
 # docker build -t dagster-daemon . -f Dockerfile.daemon
 # docker image tag dagster-daemon ${AZURE_RESOURCE_GROUP}.azurecr.io/daemon:latest
 # docker push ${AZURE_RESOURCE_GROUP}.azurecr.io/daemon:latest
+docker build -t dagster .
+docker image tag dagster ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest
+docker push ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest
 
 # # Check if the container instance already exists
 # container_exists=$(az container list --resource-group ${AZURE_RESOURCE_GROUP} --query "[?name=='${AZURE_RESOURCE_GROUP}daemon'].name" -o tsv)
@@ -48,8 +49,8 @@ docker context use ${AZURE_RESOURCE_GROUP}
 #     az container restart --name ${AZURE_RESOURCE_GROUP}daemon --resource-group ${AZURE_RESOURCE_GROUP} --no-wait
 # fi
 
-# # create webserver web app
-# az webapp create --name ${AZURE_RESOURCE_GROUP}webserver --plan ${AZURE_RESOURCE_GROUP} --resource-group  ${AZURE_RESOURCE_GROUP} \
-#   --container-image-name ${AZURE_RESOURCE_GROUP}.azurecr.io/webserver:latest \
-#   --container-registry-user ${username} --container-registry-password ${password} --https-only true
+# create webserver web app
+az webapp create --name ${AZURE_RESOURCE_GROUP}dagster --plan ${AZURE_RESOURCE_GROUP} --resource-group  ${AZURE_RESOURCE_GROUP} \
+  --container-image-name ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest \
+  --container-registry-user ${username} --container-registry-password ${password} --https-only true
 

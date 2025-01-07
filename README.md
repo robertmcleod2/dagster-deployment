@@ -55,3 +55,7 @@ docker run -p 4000:4000 -it dagster-daemon
 ```
 
 The dagster webserver will be available at `http://localhost:3000`
+
+### Future Work
+
+Expand deployment to multiple containers so that the dagster-daemon and dagster-webserver are in separate containers, and user code can be run in a third container, or new containers can be spun up when jobs are run. This will allow for better resource management and scalability.
