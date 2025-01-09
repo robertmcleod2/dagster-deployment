@@ -15,6 +15,8 @@ az acr login --name ${AZURE_RESOURCE_GROUP}
 username=$(az acr credential show -n ${AZURE_RESOURCE_GROUP} --query username | xargs) 
 password=$(az acr credential show -n ${AZURE_RESOURCE_GROUP} --query passwords[0].value | xargs) 
 
+kubectl create secret docker-registry my_secret --docker-server ${AZURE_RESOURCE_GROUP} --docker-username ${username} --docker-password ${password}
+
 # docker login azure --client-id ${AZURE_CLIENT_ID} --client-secret ${AZURE_CLIENT_CERTIFICATE_PATH} --tenant-id ${AZURE_TENANT_ID}
 
 # docker context create aci ${AZURE_RESOURCE_GROUP} --resource-group ${AZURE_RESOURCE_GROUP} --location ${LOCATION} --subscription-id ${AZURE_SUBSCRIPTION_ID}
@@ -50,7 +52,7 @@ docker push ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest
 # fi
 
 # create webserver web app
-az webapp create --name ${AZURE_RESOURCE_GROUP}dagster --plan ${AZURE_RESOURCE_GROUP} --resource-group  ${AZURE_RESOURCE_GROUP} \
-  --container-image-name ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest \
-  --container-registry-user ${username} --container-registry-password ${password} --https-only true
+# az webapp create --name ${AZURE_RESOURCE_GROUP}dagster --plan ${AZURE_RESOURCE_GROUP} --resource-group  ${AZURE_RESOURCE_GROUP} \
+#   --container-image-name ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest \
+#   --container-registry-user ${username} --container-registry-password ${password} --https-only true
 

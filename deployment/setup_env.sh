@@ -15,5 +15,7 @@ az group create -n ${AZURE_RESOURCE_GROUP}
 az acr create --name ${AZURE_RESOURCE_GROUP} --sku Standard --admin-enabled true
 
 # create app service plan
-az appservice plan create --name ${AZURE_RESOURCE_GROUP} --resource-group ${AZURE_RESOURCE_GROUP} --location westeurope \
- --number-of-workers 1 --sku S1 --is-linux
+# az appservice plan create --name ${AZURE_RESOURCE_GROUP} --resource-group ${AZURE_RESOURCE_GROUP} --location westeurope \
+#  --number-of-workers 1 --sku S1 --is-linux
+
+# create AKS kubernetes cluster, linked to ACR
