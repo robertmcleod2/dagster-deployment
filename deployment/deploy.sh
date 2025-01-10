@@ -26,6 +26,9 @@ kubectl config use-context ${AZURE_RESOURCE_GROUP}
 if kubectl get secret mysecret${AZURE_RESOURCE_GROUP} > /dev/null 2>&1; then
   kubectl delete secret mysecret${AZURE_RESOURCE_GROUP}
 fi
-kubectl create secret docker-registry mysecret${AZURE_RESOURCE_GROUP} --docker-server ${AZURE_RESOURCE_GROUP} --docker-username ${username} --docker-password ${password}
+kubectl create secret docker-registry mysecret${AZURE_RESOURCE_GROUP} --docker-server ${AZURE_RESOURCE_GROUP}.azurecr.io --docker-username ${username} --docker-password ${password}
 helm repo add dagster https://dagster-io.github.io/helm
 helm upgrade --install ${AZURE_RESOURCE_GROUP} dagster/dagster -f values_${AZURE_RESOURCE_GROUP}.yaml
+
+# view the external IP for the kubernetes ingress
+kubectl get service -n app-routing-system
