@@ -5,7 +5,7 @@
 #   image will be consistent for the pipeline's entire execution.
 ---
 global:
-  postgresqlSecretName: "dagster-postgresql-secret"
+  postgresqlSecretName: "dagster-postgresql-secret-dev"
   # The DAGSTER_HOME env var is set by default on all nodes from this value
   dagsterHome: "/opt/dagster/dagster_home"
 
@@ -60,7 +60,7 @@ dagsterWebserver:
     # List of servers to include in the workflow file. When set,
     # `externalConfigmap` must be empty.
     servers:
-      - host: "k8s-example-user-code-1"
+      - host: "k8s-example-user-code-1-dev"
         port: 3030
         name: "user-code-example"
 
@@ -289,11 +289,11 @@ dagster-user-deployments:
   # Specify secrets to run user code server containers based on images in private registries. See:
   # https://kubernetes.io/docs/concepts/containers/images/#referring-to-an-imagepullsecrets-on-a-pod
   imagePullSecrets:
-    - name: mysecret
+    - name: mysecretdagsterpracticedev
 
   # List of unique deployments
   deployments:
-    - name: "k8s-example-user-code-1"
+    - name: "k8s-example-user-code-1-dev"
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "dagsterpracticedev.azurecr.io/dagster"
@@ -932,15 +932,13 @@ flower:
 ingress:
   enabled: true
 
-  annotations: 
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations: {}
   labels: {}
 
   # Specify the IngressClass used to implement this ingress.
   #
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-  ingressClassName: nginx
+  ingressClassName: webapprouting.kubernetes.azure.com
 
   dagsterWebserver:
     # Ingress hostname for the webserver e.g. dagster.mycompany.com
