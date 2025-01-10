@@ -932,15 +932,13 @@ flower:
 ingress:
   enabled: true
 
-  annotations: 
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations: {}
   labels: {}
 
   # Specify the IngressClass used to implement this ingress.
   #
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-  ingressClassName: nginx
+  ingressClassName: webapprouting.kubernetes.azure.com
 
   dagsterWebserver:
     # Ingress hostname for the webserver e.g. dagster.mycompany.com
