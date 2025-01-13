@@ -1,5 +1,5 @@
-# dagster-deployment
-An example dagster deployment in Azure using a single container
+# dagster-kubernetes-deployment
+An example dagster deployment in Azure using kubernetes. The project is a simple example of how to deploy a dagster pipeline to a kubernetes cluster in Azure. The kubernetes cluster is deployed in a CI/CD pipeline to Azure using a Helm chart.
 
 ### Local setup
 
@@ -36,24 +36,7 @@ dagster dev
 
 The dagster webserver will be available at `http://localhost:3000`
 
-### Run from docker container
-
-To run the project from a docker container, follow step 1 above then these steps:
-
-1. Build the docker images
-
-```bash
-docker build -t dagster .
-```
-
-2. Run the docker container
-
-```bash
-docker run -p 3000:3000 -it dagster
-```
-
-The dagster webserver will be available at `http://localhost:3000`
-
 ### Future Work
 
-Expand deployment to multiple containers so that the dagster-daemon and dagster-webserver are in separate containers, and user code can be run in a third container, or new containers can be spun up when jobs are run. This will allow for better resource management and scalability. This may be easiest by using Kubernetes.
+- Add a DNS name to the Kubernetes cluster
+- Add an example forecasting model to the dagster pipeline
