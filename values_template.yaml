@@ -5,7 +5,7 @@
 #   image will be consistent for the pipeline's entire execution.
 ---
 global:
-  postgresqlSecretName: "dagster-postgresql-secret-prod"
+  postgresqlSecretName: "dagster-postgresql-secret-${env}"
   # The DAGSTER_HOME env var is set by default on all nodes from this value
   dagsterHome: "/opt/dagster/dagster_home"
 
@@ -60,7 +60,7 @@ dagsterWebserver:
     # List of servers to include in the workflow file. When set,
     # `externalConfigmap` must be empty.
     servers:
-      - host: "k8s-example-user-code-1-prod"
+      - host: "k8s-example-user-code-1-${env}"
         port: 3030
         name: "user-code-example"
 
@@ -289,15 +289,15 @@ dagster-user-deployments:
   # Specify secrets to run user code server containers based on images in private registries. See:
   # https://kubernetes.io/docs/concepts/containers/images/#referring-to-an-imagepullsecrets-on-a-pod
   imagePullSecrets:
-    - name: mysecretdagsterpracticeprod
+    - name: mysecretdagsterpractice${env}
 
   # List of unique deployments
   deployments:
-    - name: "k8s-example-user-code-1-prod"
+    - name: "k8s-example-user-code-1-${env}"
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
-        repository: "dagsterpracticeprod.azurecr.io/dagster"
-        tag: "latest"
+        repository: "dagsterpractice${env}.azurecr.io/dagster"
+        tag: ${tag}
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -364,8 +364,6 @@ dagster-user-deployments:
       # Example:
       # labels:
       #   my-label-key: my_label-value
-      labels: 
-        date: "{{ now | unixEpoch }}"
 
       # Additional volumes that should be included. See:
       # https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#volume-v1-core
