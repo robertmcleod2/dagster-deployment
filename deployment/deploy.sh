@@ -12,7 +12,7 @@ az config set defaults.group=${AZURE_RESOURCE_GROUP} defaults.location=${LOCATIO
 az acr login --name ${AZURE_RESOURCE_GROUP}
 
 # build and push docker image
-docker build -t dagster .
+docker build --build-arg ADO_TOKEN=${ADO_TOKEN} -t dagster .
 docker image tag dagster ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest
 docker push ${AZURE_RESOURCE_GROUP}.azurecr.io/dagster:latest
 
