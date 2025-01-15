@@ -6,8 +6,8 @@ setup(
     install_requires=[
         "dagster",
         "dagster-cloud",
-        "pandas",
         "enerfore",
+        "numpy<2.0.0"
     ],
     extras_require={"dev": ["dagster-webserver", "pytest"]},
 )

@@ -60,7 +60,7 @@ dagsterWebserver:
     # List of servers to include in the workflow file. When set,
     # `externalConfigmap` must be empty.
     servers:
-      - host: "user-code-${AZURE_RESOURCE_GROUP}"
+      - host: "k8s-user-code-${AZURE_RESOURCE_GROUP}"
         port: 3030
         name: "user-code-${AZURE_RESOURCE_GROUP}"
 
@@ -293,7 +293,7 @@ dagster-user-deployments:
 
   # List of unique deployments
   deployments:
-    - name: "user-code-${AZURE_RESOURCE_GROUP}"
+    - name: "k8s-user-code-${AZURE_RESOURCE_GROUP}"
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "${AZURE_RESOURCE_GROUP}.azurecr.io/dagster"
@@ -1379,4 +1379,3 @@ pipelineRun:
   #   ENV_ONE: one
   #   ENV_TWO: two
   env: {}
-
