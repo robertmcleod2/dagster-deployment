@@ -1,48 +1,67 @@
-import json
-import requests
+import pickle
 
+import numpy as np
 import pandas as pd
-
 from dagster import (
     Config,
     MaterializeResult,
     MetadataValue,
     asset,
 )
+from enerfore.forecasting.ts.recipes.load import LoadGbrtARX
 
 
-class HNStoriesConfig(Config):
-    top_stories_limit: int = 10
-    hn_top_story_ids_path: str = "dagster_app/data/hackernews_top_story_ids.json"
-    hn_top_stories_path: str = "dagster_app/data/hackernews_top_stories.csv"
+class DataConfig(Config):
+    y_train_path: str = "dagster_app/data/y_train.csv"
+    x_train_path: str = "dagster_app/data/x_train.csv"
+    x_pred_path: str = "dagster_app/data/x_pred.csv"
+    model_train_path: str = "dagster_app/data/model_train.pkl"
+    y_pred_path: str = "dagster_app/data/y_pred.csv"
 
 
 @asset
-def hackernews_top_story_ids(config: HNStoriesConfig):
-    """Get top stories from the HackerNews top stories endpoint."""
-    top_story_ids = requests.get("https://hacker-news.firebaseio.com/v0/topstories.json").json()
+def y_train(config: DataConfig):
+    index = pd.date_range(start="2024-01-01", end="2024-12-31", freq="H")
+    data = np.sin((index.hour / 24) * 2 * np.pi) + np.random.normal(0, 0.1, len(index))
+    df = pd.DataFrame(data, index=index, columns=["y"])
+    df.to_csv(config.y_train_path)
 
-    with open(config.hn_top_story_ids_path, "w") as f:
-        json.dump(top_story_ids[: config.top_stories_limit], f)
+
+@asset
+def x_train(config: DataConfig):
+    index = pd.date_range(start="2024-01-01", end="2024-12-31", freq="H")
+    data = np.cos((index.hour / 24) * 2 * np.pi) * 1.5 + np.random.normal(0, 0.2, len(index))
+    df = pd.DataFrame(data, index=index, columns=["X"])
+    df.to_csv(config.x_train_path)
 
 
-@asset(deps=[hackernews_top_story_ids])
-def hackernews_top_stories(config: HNStoriesConfig) -> MaterializeResult:
-    """Get items based on story ids from the HackerNews items endpoint."""
-    with open(config.hn_top_story_ids_path, "r") as f:
-        hackernews_top_story_ids = json.load(f)
+@asset
+def x_pred(config: DataConfig):
+    index = pd.date_range(start="2025-01-01", end="2025-02-28", freq="H")
+    data = np.cos((index.hour / 24) * 2 * np.pi) * 1.5 + np.random.normal(0, 0.2, len(index))
+    df = pd.DataFrame(data, index=index, columns=["X"])
+    df.to_csv(config.x_pred_path)
 
-    results = []
-    for item_id in hackernews_top_story_ids:
-        item = requests.get(f"https://hacker-news.firebaseio.com/v0/item/{item_id}.json").json()
-        results.append(item)
 
-    df = pd.DataFrame(results)
-    df.to_csv(config.hn_top_stories_path)
+@asset(deps=[y_train, x_train])
+def model_train(config: DataConfig):
+    y_train = pd.read_csv(config.y_train_path, index_col=0, parse_dates=True)
+    x_train = pd.read_csv(config.x_train_path, index_col=0, parse_dates=True)
+    model = LoadGbrtARX(freq="1H")
+    model.fit(y_train, x_train)
+    pickle.dump(model, open(config.model_train_path, "wb"))
 
+
+@asset(deps=[x_pred, model_train])
+def model_predict(config: DataConfig) -> MaterializeResult:
+    x_pred = pd.read_csv(config.x_pred_path, index_col=0, parse_dates=True)
+    model_train = pickle.load(open(config.model_train_path, "rb"))
+    fh = pd.date_range(start="2025-01-01", end="2025-02-28", freq="H")
+    y_pred = model_train.predict(X=x_pred, fh=fh)
+    y_pred.to_csv(config.y_pred_path)
     return MaterializeResult(
         metadata={
-            "num_records": len(df),
-            "preview": MetadataValue.md(str(df[["title", "by", "url"]].to_markdown())),
+            "num_records": len(y_pred),
+            "preview": MetadataValue.md(str(y_pred.head())),
         }
     )
