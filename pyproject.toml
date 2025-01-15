@@ -17,3 +17,7 @@ line-length = 110
 select = ["E", "F", "B", "I"]
 # Add errors that should be ignored by default here
 ignore = ["E402", "E501"]
+
+[[tool.uv.index]]
+name = "ado"
+url = "https://sede-sc.pkgs.visualstudio.com/sepypi/_packaging/DevEnergyForecasting/pypi/simple/"

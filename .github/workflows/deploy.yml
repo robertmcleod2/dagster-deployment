@@ -28,6 +28,7 @@ jobs:
       AZURE_CLIENT_CERTIFICATE_PATH: "blank"
       AZURE_CLIENT_CERTIFICATE: ${{ secrets.AZURE_CLIENT_CERTIFICATE }}
       AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}  
+      ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
     
     steps:
       - name: Checkout

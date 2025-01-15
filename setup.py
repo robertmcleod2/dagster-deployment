@@ -7,6 +7,7 @@ setup(
         "dagster",
         "dagster-cloud",
         "pandas",
+        "enerfore",
     ],
     extras_require={"dev": ["dagster-webserver", "pytest"]},
 )

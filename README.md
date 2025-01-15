@@ -19,14 +19,15 @@ conda create -n dagster-deployment python=3.12
 conda activate dagster-deployment
 ```
 
-3. Install the required packages
+3. Set up your local environment variables. Create a `.env` file in the root directory of the project, following the template in the .env_template file
+
+4. Install the required packages. `ADO_TOKEN` can be found in the `.env` file
 
 ```bash
-pip install -e ".[dev]"
+pip install uv
+set UV_INDEX_ADO_PASSWORD=<ADO_TOKEN>
+uv pip install -e ".[dev]"
 ```
-
-4. Set up your local environment variables. Create a `.env` file in the root directory of the project, following the template in the .env_template file
-
 
 5. start the Dagster webserver:
 
