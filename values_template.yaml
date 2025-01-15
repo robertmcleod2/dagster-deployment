@@ -5,7 +5,7 @@
 #   image will be consistent for the pipeline's entire execution.
 ---
 global:
-  postgresqlSecretName: "dagster-postgresql-secret-dev"
+  postgresqlSecretName: "dagster-postgresql-secret-${AZURE_RESOURCE_GROUP}"
   # The DAGSTER_HOME env var is set by default on all nodes from this value
   dagsterHome: "/opt/dagster/dagster_home"
 
@@ -60,9 +60,9 @@ dagsterWebserver:
     # List of servers to include in the workflow file. When set,
     # `externalConfigmap` must be empty.
     servers:
-      - host: "k8s-example-user-code-1-dev"
+      - host: "k8s-user-code-${AZURE_RESOURCE_GROUP}"
         port: 3030
-        name: "user-code-example"
+        name: "user-code-${AZURE_RESOURCE_GROUP}"
 
     # Defines the name of a configmap provisioned outside of the
     # Helm release to use as workspace file. When set, `servers`
@@ -289,15 +289,15 @@ dagster-user-deployments:
   # Specify secrets to run user code server containers based on images in private registries. See:
   # https://kubernetes.io/docs/concepts/containers/images/#referring-to-an-imagepullsecrets-on-a-pod
   imagePullSecrets:
-    - name: mysecretdagsterpracticedev
+    - name: mysecret${AZURE_RESOURCE_GROUP}
 
   # List of unique deployments
   deployments:
-    - name: "k8s-example-user-code-1-dev"
+    - name: "k8s-user-code-${AZURE_RESOURCE_GROUP}"
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
-        repository: "dagsterpracticedev.azurecr.io/dagster"
-        tag: "latest"
+        repository: "${AZURE_RESOURCE_GROUP}.azurecr.io/dagster"
+        tag: "${tag}"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -1379,4 +1379,3 @@ pipelineRun:
   #   ENV_ONE: one
   #   ENV_TWO: two
   env: {}
-
