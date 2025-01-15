@@ -5,8 +5,9 @@ FROM python:3.12-slim
 COPY . .
 
 # set pip index url
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 ARG ADO_TOKEN
-RUN pip config set global.index-url https://${ADO_TOKEN}@sede-sc.pkgs.visualstudio.com/sepypi/_packaging/DevEnergyForecasting/pypi/simple/
+ENV ADO_TOKEN=${ADO_TOKEN}
 
 # Checkout and install dagster libraries needed to run the gRPC server
 # exposing your repository to dagster-webserver and dagster-daemon, and to load the DagsterInstance
