@@ -297,7 +297,7 @@ dagster-user-deployments:
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "${AZURE_RESOURCE_GROUP}.azurecr.io/dagster"
-        tag: ${tag}
+        tag: "${tag}"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
