@@ -364,6 +364,7 @@ dagster-user-deployments:
       # Example:
       # labels:
       #   my-label-key: my_label-value
+      labels: {}
 
       # Additional volumes that should be included. See:
       # https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#volume-v1-core
