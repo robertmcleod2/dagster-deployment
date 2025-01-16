@@ -28,7 +28,6 @@ def y_train(config: DataConfig):
     return df
 
 
-
 @asset
 def x_train(config: DataConfig):
     index = pd.date_range(start="2024-01-01", end="2024-12-31", freq="H")
