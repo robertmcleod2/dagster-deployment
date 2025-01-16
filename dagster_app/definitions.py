@@ -6,6 +6,6 @@ all_assets = load_assets_from_modules([assets])
 
 defs = Definitions(
     assets=all_assets,
-    jobs=[jobs.model_train_job, jobs.model_predict_job],
-    schedules=[schedules.model_train_schedule, schedules.model_predict_schedule],
+    jobs=[jobs.model_train_predict_job],
+    schedules=[schedules.model_train_predict_schedule],
 )
