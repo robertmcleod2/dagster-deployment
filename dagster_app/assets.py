@@ -25,6 +25,8 @@ def y_train(config: DataConfig):
     data = np.sin((index.hour / 24) * 2 * np.pi) + np.random.normal(0, 0.1, len(index))
     df = pd.DataFrame(data, index=index, columns=["y"])
     df.to_csv(config.y_train_path)
+    return df
+
 
 
 @asset
@@ -33,6 +35,7 @@ def x_train(config: DataConfig):
     data = np.cos((index.hour / 24) * 2 * np.pi) * 1.5 + np.random.normal(0, 0.2, len(index))
     df = pd.DataFrame(data, index=index, columns=["X"])
     df.to_csv(config.x_train_path)
+    return df
 
 
 @asset
@@ -41,21 +44,19 @@ def x_pred(config: DataConfig):
     data = np.cos((index.hour / 24) * 2 * np.pi) * 1.5 + np.random.normal(0, 0.2, len(index))
     df = pd.DataFrame(data, index=index, columns=["X"])
     df.to_csv(config.x_pred_path)
+    return df
 
 
-@asset(deps=[y_train, x_train])
-def model_train(config: DataConfig):
-    y_train = pd.read_csv(config.y_train_path, index_col=0, parse_dates=True)
-    x_train = pd.read_csv(config.x_train_path, index_col=0, parse_dates=True)
+@asset
+def model_train(y_train, x_train, config: DataConfig):
     model = LoadGbrtARX(freq="1H")
     model.fit(y_train, x_train)
     pickle.dump(model, open(config.model_train_path, "wb"))
+    return model
 
 
-@asset(deps=[x_pred, model_train])
-def model_predict(config: DataConfig) -> MaterializeResult:
-    x_pred = pd.read_csv(config.x_pred_path, index_col=0, parse_dates=True)
-    model_train = pickle.load(open(config.model_train_path, "rb"))
+@asset
+def model_predict(x_pred, model_train, config: DataConfig) -> MaterializeResult:
     fh = pd.date_range(start="2025-01-01", end="2025-02-28", freq="H")
     y_pred = model_train.predict(X=x_pred, fh=fh)
     y_pred.to_csv(config.y_pred_path)
